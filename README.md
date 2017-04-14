@@ -1,2 +1,2 @@
-# nested_comments_latavel
+# nested_comments_laravel
 Recursive comment nesting in Laravel
