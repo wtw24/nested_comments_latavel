@@ -6,7 +6,5 @@ use Illuminate\Http\Request;
 Route::get('/', function ( Request $request) {
     $article = Article::find('1');
 
-    return response('abc');
-
-    dd($article->comments());
+    dd($article->comments()->get());
 });
