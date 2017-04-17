@@ -49,11 +49,24 @@
                         </h4>
 
                         <p>{{ $reply->body }}</p>
-                    </div>
 
+                        @foreach ($reply->replies as $reply2)
+                            <div class="comment">
+                                <h4>
+                                    {{ $reply2->user->name }}
+
+                                    @if ($reply2->parent_id)
+                                        <small>In reply to{{ $reply2->parent->user->name }}</small>
+                                    @endif
+                                </h4>
+
+                                <p>{{ $reply2->body }}</p>
+                            </div>
+
+                        @endforeach
+                    </div>
                 @endforeach
             </div>
-
         @endforeach
     </body>
 </html>
