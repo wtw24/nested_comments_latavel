@@ -6,5 +6,11 @@ use Illuminate\Http\Request;
 Route::get('/', function ( Request $request) {
     $article = Article::find('1');
 
-    dd($article->comments()->get());
+    $comments = $article->comments()->get();
+
+    return view('comments.index', compact('article', 'comments'));
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
