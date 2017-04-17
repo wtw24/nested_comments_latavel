@@ -10,6 +10,8 @@ Route::get('/', function ( Request $request) {
 	    'user',
 	    'replies.user',
 	    'replies.parent.user',
+	    'replies.replies.user',
+	    'replies.replies.parent.user',
     ])->get();
 
     return view('comments.index', compact('article', 'comments'));
