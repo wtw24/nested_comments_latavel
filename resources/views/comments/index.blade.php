@@ -24,7 +24,7 @@
     <body>
         <h1>{{ $article->title }}</h1>
         <br>
-
+        {{ $comments->links() }}
         @include ('comments.partials._comment', ['comments' => $comments])
     </body>
 </html>

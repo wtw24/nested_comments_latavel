@@ -4,9 +4,9 @@ namespace App\Traits\Eloquent;
 
 trait NestableCommentsTrait
 {
-	public function nestedComments()
+	public function nestedComments($page = 1, $perPage = 10)
 	{
-		$comments = $this->comments($page = 1, $perPage = 10);
+		$comments = $this->comments();
 
 		$grouped = $comments->get()->groupBy('parent_id');
 		$root = $grouped->get(null)->forPage($page, $perPage);
@@ -14,7 +14,7 @@ trait NestableCommentsTrait
 		$ids = $this->buildIdNest($root, $grouped);
 
 		$grouped = $comments->whereIn('id', $ids)->with(['user', 'parent.user'])->get()->groupBy('parent_id');
-		$root = $grouped->get(null)->forPage($page, $perPage);
+		$root = $grouped->get(null);
 
 		return $this->buildNest($root, $grouped);
 	}
