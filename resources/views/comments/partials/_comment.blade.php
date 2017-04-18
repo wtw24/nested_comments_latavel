@@ -1,15 +1,26 @@
-<div class="comment">
-    <h4>
-        {{ $comment->user->name }}
+<?php
+    $traverse = function ($comments) use (&$traverse) {
+    	foreach ($comments as $comment):
+?>
+    <div class="comment">
+        <h4>
+            {{ $comment->user->name }}
 
-        @if ($comment->parent_id)
-            <small>In reply to{{ $comment->parent->user->name }}</small>
+            @if ($comment->parent_id)
+                <small>In reply to{{ $comment->parent->user->name }}</small>
+            @endif
+        </h4>
+
+        <p>{{ $comment->body }}</p>
+
+        @if ($comment->replies)
+            <?php $traverse($comment->replies); ?>
         @endif
-    </h4>
+    </div>
+<?php
+        endforeach;
+    };
 
-    <p>{{ $comment->body }}</p>
+    $traverse($comments);
+?>
 
-    @foreach ($comment->replies as $reply)
-        @include ('comments.partials._comment', ['comment' => $reply])
-    @endforeach
-</div>

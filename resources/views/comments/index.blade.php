@@ -24,8 +24,7 @@
     <body>
         <h1>{{ $article->title }}</h1>
         <br>
-        @foreach ($comments as $comment)
-            @include ('comments.partials._comment', ['comments' => $comments])
-        @endforeach
+
+        @include ('comments.partials._comment', ['comments' => $comments])
     </body>
 </html>
