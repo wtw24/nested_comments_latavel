@@ -6,12 +6,30 @@ trait NestableCommentsTrait
 {
 	public function nestedComments()
 	{
-		$comments = $this->comments();
+		$comments = $this->comments($page = 1, $perPage = 10);
 
-		$grouped = $comments->with(['user', 'parent.user'])->get()->groupBy('parent_id');
-		$root = $grouped->get(null);
+		$grouped = $comments->get()->groupBy('parent_id');
+		$root = $grouped->get(null)->forPage($page, $perPage);
+
+		$ids = $this->buildIdNest($root, $grouped);
+
+		$grouped = $comments->whereIn('id', $ids)->with(['user', 'parent.user'])->get()->groupBy('parent_id');
+		$root = $grouped->get(null)->forPage($page, $perPage);
 
 		return $this->buildNest($root, $grouped);
+	}
+
+	protected function buildIdNest($root, $grouped, &$ids = [])
+	{
+		foreach ($root as $comment) {
+			$ids[] = $comment->id;
+
+			if ($replies = $grouped->get($comment->id)) {
+				$this->buildIdNest($replies, $grouped, $ids);
+			}
+		}
+
+		return $ids;
 	}
 
 	protected function buildNest($comments, $groupedComments)
