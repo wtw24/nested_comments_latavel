@@ -13,7 +13,13 @@ class Comment extends Model
 
     public function replies()
     {
-    	return $this->hasMany(Comment::class, 'parent_id');
+    	return $this->hasMany(Comment::class, 'parent_id')
+	                ->with([
+	                	'replies',
+	                	'replies.parent',
+	                	'replies.user',
+		                'replies.parent.user',
+	                ]);
     }
 
     public function parent()
