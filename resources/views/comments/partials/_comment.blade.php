@@ -13,8 +13,8 @@
 
         <p>{{ $comment->body }}</p>
 
-        @if ($comment->replies)
-            <?php $traverse($comment->replies); ?>
+        @if ($comment->children)
+            <?php $traverse($comment->children); ?>
         @endif
     </div>
 <?php
